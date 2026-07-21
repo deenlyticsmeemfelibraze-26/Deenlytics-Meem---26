@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/c4aea83fca.js" crossorigin="anonymous"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>flowpath - Highlights</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Malayalam:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: 'Helvetica Now Text';
+    src: url('https://db.onlinewebfonts.com/c/08e020de1811ec4489f82d1247a42c09?family=Helvetica+Now+Text');
+  }
+  * {
+    font-family: 'Helvetica Now Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  html, body { height: 100%; margin: 0; scroll-behavior: smooth; }
+
+  .bg-video-blur {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 150vh;
+    object-fit: cover;
+    filter: blur(40px) brightness(0.35) saturate(1.1);
+    transform: scale(1.15);
+    z-index: -2;
+  }
+  .bg-video-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(10,6,3,0.5) 0%, rgba(10,6,3,0.75) 100%);
+  }
+  .font-mal { font-family: 'Noto Serif Malayalam', 'Helvetica Now Text', serif; }
+  .glow-amber { color: #f0a84a; text-shadow: 0 0 30px rgba(240,168,74,0.25); }
+  .section-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid rgba(240,168,74,0.15);
+  }
+  .section-card:hover { border-color: rgba(240,168,74,0.5); }
+  .tag-pill {
+    letter-spacing: 0.1em;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: #c9954f;
+  }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms cubic-bezier(0.16,1,0.3,1), padding 400ms;
+  }
+  .accordion-item.open .accordion-body { max-height: 1000px; }
+  .accordion-item.open .accordion-chevron { transform: rotate(180deg); }
+  .accordion-chevron { transition: transform 300ms; }
+
+  .mobile-menu-panel {
+    transition: max-height 400ms cubic-bezier(0.16,1,0.3,1), opacity 400ms cubic-bezier(0.16,1,0.3,1);
+    max-height: 0px;
+    opacity: 0;
+    overflow: hidden;
+  }
+  .mobile-menu-panel.open {
+    max-height: 600px;
+    opacity: 1;
+    margin-top: 8px;
+  }
+
+  .deenlitycs-font{
+    color: #f0a84a;
+    font-family: Georgia, 'Times New Roman', Times, serif ;
+    font-weight: 400;
+    font-size: 20px;
+  }
+  .meem_img{
+    width: 40vh;
+    padding-bottom: 140px;
+  }
+  .animated-img {
+    width: 300px;
+    height: auto;
+    animation: imageReveal 1.5s ease-out forwards;
+  }
+  @keyframes imageReveal {
+    0% { transform: scale(0.8); filter: blur(10px); opacity: 0; }
+    100% { transform: scale(1); filter: blur(0px); opacity: 1; }
+  }
+
+  .icon-swap { position: relative; width: 24px; height: 24px; display: inline-block; }
+  .icon-swap svg { position: absolute; inset: 0; transition: all 300ms; }
+  .icon-menu-x .menu-icon { opacity: 1; transform: scale(1) rotate(0deg); }
+  .icon-menu-x .close-icon { opacity: 0; transform: scale(0.75) rotate(-90deg); }
+  .icon-menu-x.open .menu-icon { opacity: 0; transform: scale(0.75) rotate(90deg); }
+  .icon-menu-x.open .close-icon { opacity: 1; transform: scale(1) rotate(0deg); }
+     
+  #sectionDetails { display: none; }
+
+  .btn-liquid-glass {
+    position: relative;
+    background: linear-gradient(135deg, rgba(20, 15, 12, 0.7) 0%, rgba(10, 6, 4, 0.85) 100%);
+    border: 1px solid rgba(240, 168, 74, 0.3);
+    color: #f0a84a !important;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    padding: 12px 36px;
+    border-radius: 9999px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+  .btn-liquid-glass:hover {
+    background: linear-gradient(135deg, rgba(30, 22, 18, 0.85) 0%, rgba(15, 10, 8, 0.95) 100%);
+    border-color: rgba(240, 168, 74, 0.7);
+    transform: translateY(-1px);
+  }
+
+  .like-btn { cursor: pointer; transition: transform 0.2s; user-select: none; }
+  .like-btn:active { transform: scale(1.2); }
+  .like-btn.liked { color: #ef4444 !important; }
+
+  .custom-scrollbar::-webkit-scrollbar { height: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(240, 168, 74, 0.4); border-radius: 10px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(240, 168, 74, 0.8); }
+</style>
+</head>
+<body class="bg-black text-white">
+
+<div id="sectionHome">
+<video class="bg-video-blur" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260703_053131_1ec3dd1c-d627-44fb-ab20-6e1fce41b0d5.mp4" autoplay loop muted playsinline></video>
+<div>
+<div class="bg-video-overlay"></div>
+
+<section class="relative h-screen w-full overflow-hidden">
+  <video class="absolute inset-0 w-full h-full object-cover" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260703_053131_1ec3dd1c-d627-44fb-ab20-6e1fce41b0d5.mp4" autoplay loop muted playsinline></video>
+  <div class="absolute inset-0 bg-black/10"></div>
+
+  <div class="relative z-10 flex flex-col h-full">
+    <!-- PURE TRANSPARENT NAVBAR -->
+    <div class="relative z-20">
+      <nav class="w-full flex items-center justify-between px-5 sm:px-6 md:px-12 lg:px-16 py-4 sm:py-5 bg-transparent">
+        <div class="flex items-center gap-2">
+          <span class="deenlitycs-font">DEENLYTICS</span>
+        </div>
+
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex items-center gap-8 text-xs font-medium tracking-widest text-white/70">
+          <a href="#sectionPrograms" onclick="showDetailsAndScroll('sectionPrograms')" class="hover:text-amber-400 transition">PROGRAMMES</a>
+          <a href="#sectionNonStage" onclick="showDetailsAndScroll('sectionNonStage')" class="hover:text-amber-400 transition">NON-STAGE</a>
+          <a href="#sectionVideo" onclick="showDetailsAndScroll('sectionVideo')" class="hover:text-amber-400 transition">VIDEO</a>
+          <a href="#sectionMagazine" onclick="showDetailsAndScroll('sectionMagazine')" class="hover:text-amber-400 transition">MAGAZINE</a>
+          <a href="#sectionUpdates" onclick="showDetailsAndScroll('sectionUpdates')" class="hover:text-amber-400 transition">D-UPDATES</a>
+          <a href="#sectionGallery" onclick="showDetailsAndScroll('sectionGallery')" class="hover:text-amber-400 transition">GALLERY</a>
+        </div>
+
+        <!-- Mobile Toggle Button -->
+        <button id="mobileToggle" class="md:hidden text-white icon-swap icon-menu-x focus:outline-none" aria-label="Toggle menu">
+          <svg class="menu-icon icon-24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="6" x2="20" y2="6"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="18" x2="20" y2="18"></line>
+          </svg>
+          <svg class="close-icon icon-24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </nav>
+
+      <!-- Mobile Dropdown Menu Panel -->
+      <div id="mobileMenu" class="mobile-menu-panel absolute top-full left-0 right-0 mx-5 sm:mx-6 md:mx-12 lg:mx-16 z-30">
+        <div class="bg-[#1c1410]/95 backdrop-blur-xl rounded-2xl p-6 border border-amber-500/20 flex flex-col gap-4 text-sm font-medium text-white/80">
+          <a href="#sectionPrograms" onclick="closeMobileMenu(); showDetailsAndScroll('sectionPrograms')" class="hover:text-amber-400 py-1">വേദിയിൽ</a>
+          <a href="#sectionNonStage" onclick="closeMobileMenu(); showDetailsAndScroll('sectionNonStage')" class="hover:text-amber-400 py-1">പിന്നണി</a>
+          <a href="#sectionVideo" onclick="closeMobileMenu(); showDetailsAndScroll('sectionVideo')" class="hover:text-amber-400 py-1">ഹൈലൈറ്റ്സ്</a>
+          <a href="#sectionMagazine" onclick="closeMobileMenu(); showDetailsAndScroll('sectionMagazine')" class="hover:text-amber-400 py-1">കവിതാസമാഹാരം</a>
+          <a href="#sectionUpdates" onclick="closeMobileMenu(); showDetailsAndScroll('sectionUpdates')" class="hover:text-amber-400 py-1">D-Updates</a>
+          <a href="#sectionGallery" onclick="closeMobileMenu(); showDetailsAndScroll('sectionGallery')" class="hover:text-amber-400 py-1">Gallery</a>
+          <a href="#sectionPoetry" onclick="closeMobileMenu(); showDetailsAndScroll('sectionPoetry')" class="hover:text-amber-400 py-1">കവിതാശകലങ്ങൾ</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="meem_img animated-img text-center">
+        <div class="d-flex flex-row justify-center">
+          <img src="https://iili.io/CwqZ1Tv.png" class="mx-auto block" style="height:180px;" />
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8">
+          <div><button class="btn-liquid-glass font-medium text-sm transition" onclick="showDetailsAndScroll('sectionPrograms')">view more</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</div>
+
+<!-- DETAILS & HIGHLIGHTS SECTION -->
+<div id="sectionDetails">
+
+<!-- STAGE PROGRAMMES SECTION (RESPONSIVE GRID WITH TOP BANNER IMAGE) -->
+<section id="sectionPrograms" class="relative py-16 px-5 sm:px-6 md:px-12 lg:px-16 border-t border-white/5">
+  <div class="max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="mb-10 text-center">
+      <h2 class="font-mal glow-amber text-2xl sm:text-3xl font-bold">വേദിയിൽ</h2>
+      <p class="text-white/40 text-xs sm:text-sm mt-2">നബിയോരിൽ ലയിച്ച് പാടാം... പറയാം...</p>
+    </div>
+
+    <!-- Responsive Grid Container (Auto-adjusts for Mobile & Desktop) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="stageProgramsContainer">
+      <!-- JavaScript വഴി ഓരോ കാർഡും ലോഡ് ആകും -->
+    </div>
+  </div>
+</section>
+
+<!-- NON-STAGE EVENTS SECTION (NO MODAL / DIRECT INLINE CARD DISPLAY) -->
+<section id="sectionNonStage" class="relative py-12 px-5 sm:px-6 md:px-12 lg:px-16 border-t border-white/5">
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-8 text-center">
+      <h2 class="font-mal glow-amber text-2xl sm:text-3xl font-bold">പിന്നണി </h2>
+      <p class="text-white/40 text-xs sm:text-sm mt-2">വേദിക്ക് പുറത്ത് സജ്ജീകരിച്ചത്</p>
+    </div>
+
+    <!-- Container for Non-Stage Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="nonStageContainer">
+      <!-- JavaScript വഴി ചിത്രവും വിവരങ്ങളും നേരിട്ട് കാർഡിൽ ലോഡ് ചെയ്യപ്പെടും -->
+    </div>
+  </div>
+</section>
+
+<!-- SHARED PROGRAM & NON-STAGE PHOTO MODAL (HORIZONTAL SCROLL) -->
+<div id="photoModal" class="fixed inset-0 bg-black/95 z-50 hidden flex-col items-center justify-center p-4 sm:p-8">
+  <div class="w-full max-w-3xl bg-[#1c1410] rounded-2xl border border-white/10 p-5 sm:p-8 relative">
+    <button onclick="closePhotoModal()" class="absolute top-4 right-4 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full transition">✕ Close</button>
+    
+    <h3 id="photoModalTitle" class="font-mal text-white text-xl sm:text-2xl font-bold"></h3>
+    <p id="photoModalDesc" class="text-white/60 text-xs sm:text-sm mt-1 mb-6"></p>
+
+    <p class="tag-pill mb-3">PHOTOS :</p>
+    
+    <div id="photoModalContainer" class="flex gap-4 overflow-x-auto pb-4 snap-x custom-scrollbar">
+      <!-- Photos injected via JS -->
+    </div>
+  </div>
+</div>
+
+<!-- HIGHLIGHT VIDEO SECTION -->
+<section id="sectionVideo" class="relative py-16 px-5 sm:px-6 md:px-12 lg:px-16 border-t border-white/5">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="font-mal glow-amber text-2xl sm:text-3xl font-bold mb-3">ഹൈലൈറ്റ്സ്</h2>
+
+    <div class="flex justify-center">
+      <!-- Portrait Outer Frame with Glowing Amber Border -->
+      <div class="relative rounded-2xl overflow-hidden border border-amber-500/40 shadow-[0_0_25px_rgba(240,168,74,0.15)] bg-black" style="width: 300px; height: 530px;">
+        <video 
+          class="w-full h-full object-cover rounded-2xl" 
+          controls 
+          playsinline 
+          preload="metadata">
+          <source src="meem.mp4.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAGAZINE SECTION -->
+<section id="sectionMagazine" class="relative py-16 px-5 sm:px-6 md:px-12 lg:px-16 border-t border-white/5 bg-white/[0.01]">
+  <div class=" max-w-3xl mx-auto text-center">
+    <div class="section-card p-8 rounded-3xl border border-amber-500/20">
+      <span class="text-amber-500 font-bold text-xs tracking-widest uppercase">കവിതാസമാഹാരം</span>
+      <h2 class="font-mal text-white text-2xl sm:text-3xl font-bold mt-2">അങ്ങല്ലാതാര്</h2>
+      <p class="text-white/60 text-xs sm:text-sm mt-3 leading-relaxed">
+         പ്രകാശനം ചെയ്ത കവിതാസമാഹാരം ഡിജിറ്റലായി വായിക്കാം
+      </p>
+      <div class="flex flex-wrap justify-center gap-4 mt-6">
+        <a href="https://drive.google.com/file/d/1B2YYaZXFOpIwdIHTpDcEtc7mJAfieHBX/preview" target="_blank" class="btn-liquid-glass text-xs py-2.5 px-6">വായിക്കുക (Read)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS UPDATES SECTION -->
+<section id="sectionUpdates" class="relative py-16 sm:py-20 px-5 sm:px-6 md:px-12 lg:px-16 border-t border-white/5">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-10">
+      <h2 class="text-white text-3xl sm:text-4xl font-bold">D-Updates</h2>
+      <p class="text-white/40 text-sm mt-2">Latest stories and updates from Deenlytics</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="newsGrid"></div>
+  </div>
+</section>
+
+<!-- NEWS DETAIL POPUP MODAL -->
+<div id="newsModal" class="fixed inset-0 bg-black/95 z-50 hidden flex-col items-center p-4 sm:p-8 overflow-y-auto">
+  <div class="w-full max-w-3xl bg-[#1c1410] rounded-2xl overflow-hidden border border-white/10 p-5 sm:p-8 relative mt-10">
+    <button onclick="closeNewsModal()" class="absolute top-4 right-4 bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-3 py-1.5 rounded-full transition">✕ Close</button>
+    
+    <div id="modalNewsContent">
+      <span id="modalCategory" class="text-pink-500 font-bold text-xs tracking-wider uppercase"></span>
+      <h1 id="modalTitle" class="font-mal text-white text-2xl sm:text-3xl font-bold mt-3 leading-snug"></h1>
+      <div class="flex flex-wrap gap-4 items-center text-xs text-white/40 my-4 border-b border-white/10 pb-4">
+        <span id="modalAuthor" class="text-orange-400 font-medium"></span>
+        <span id="modalDate"></span>
+      </div>
+      <img id="modalImage" src="" class="w-full max-h-96 object-cover rounded-xl mb-6 shadow-lg" alt="News Full Image">
+      <div id="modalBody" class="font-mal text-white/80 text-sm sm:text-base leading-relaxed space-y-4"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section id="sectionGallery" class="relative py-16 sm:py-20 px-5 sm:px-6 md:px-12 lg:px-16 border-t border-white/5">
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-8">
+      <h2 class="text-white text-3xl sm:text-4xl font-bold">Gallery</h2>
+      <p class="text-white/40 text-sm mt-2">Glimpses of Deenlytics Meem Felibraze</p>
+    </div>
+    <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6"></div>
+  </div>
+</section>
+
+<!-- FULLSCREEN IMAGE ZOOM POPUP (SINGLE PHOTO MODAL) -->
+<div id="galleryModal" class="fixed inset-0 bg-black/95 z-[60] hidden flex-col items-center justify-center p-5">
+  <button id="galleryBack" class="absolute top-6 right-6 bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-full">✕ Close</button>
+  <img id="galleryModalImg" src="" class="max-w-full max-h-[85vh] rounded-2xl object-contain" />
+</div>
+
+<!-- POETRY WALL -->
+<section id="sectionPoetry" class="relative py-16 sm:py-24 px-5 sm:px-6 md:px-12 lg:px-16 border-t border-white/5">
+  <div class="max-w-3xl mx-auto text-center mb-12">
+    <h2 class="font-mal glow-amber text-2xl sm:text-3xl md:text-4xl mt-3">കവിതാശകലങ്ങൾ </h2>
+    <p class="text-white/40 text-xs sm:text-sm mt-3 tracking-wide">The Living Prophet in Poetry</p>
+  </div>
+
+  <div class="max-w-4xl mx-auto grid sm:grid-cols-2 gap-4 sm:gap-5">
+    
+    <div class="section-card rounded-2xl p-5 sm:p-6">
+      <p class="font-mal text-white/90 text-sm sm:text-base leading-relaxed">"ചരിതമവസാനിച്ചപ്പോഴും ഉമ്മൂമ്മ മൗനിയായിരുന്നില്ല... സ്വലാത്തിനീരടികൾ അവരിൽ നിന്നും കേട്ടുകൊണ്ടേയിരുന്നു... ഹബീബോരിലലിഞ്ഞ ജീവിതം.."</p>
+      <div class="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
+        <span class="text-white/40 text-xs">- അൽ-വാരിസ് മുഹമ്മദ്‌ റഈസ്</span>
+        <span class="text-white/60 text-xs flex items-center gap-1 like-btn" onclick="toggleLike(this, 12)">
+          <i class="fa-regular fa-heart"></i> <span class="like-count">12</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="section-card rounded-2xl p-5 sm:p-6">
+      <p class="font-mal text-white/90 text-sm sm:text-base leading-relaxed">"പെട്ടെന്നൊരിക്കൽ ഉദിക്കാൻ മറന്ന സൂര്യൻ ചക്രവാളത്തിൽ നിന്നും തലയുയർത്തി ഇളം കാറ്റിലെ ചോരമണത്തിന് സുഗന്ധത്തിന്റെ ഗന്ധമുണ്ടായി ആ കാറ്റ് നാടായ നാടൊക്കെ ആഞ്ഞു വീശി."</p>
+      <div class="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
+        <span class="text-white/40 text-xs">— അൽ-വാരിസ് മുഹമ്മദ്‌ ശമ്മാസ്</span>
+        <span class="text-white/60 text-xs flex items-center gap-1 like-btn" onclick="toggleLike(this, 8)">
+          <i class="fa-regular fa-heart"></i> <span class="like-count">8</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="section-card rounded-2xl p-5 sm:p-6">
+      <p class="font-mal text-white/90 text-sm sm:text-base leading-relaxed">"മാനവ മൈത്രിയുടെ പ്രവാചകാ....... അങ്ങേക്ക് പര്യായം അങ്ങ് മാത്രം."</p>
+      <div class="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
+        <span class="text-white/40 text-xs">— അൽ-വാരിസ് ശാഹുൽ ഹമീദ് എൻ എം</span>
+        <span class="text-white/60 text-xs flex items-center gap-1 like-btn" onclick="toggleLike(this, 23)">
+          <i class="fa-regular fa-heart"></i> <span class="like-count">23</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="section-card rounded-2xl p-5 sm:p-6">
+      <p class="font-mal text-white/90 text-sm sm:text-base leading-relaxed">"ഓളുടെ കണ്ണിൽ, മദീന തിളങ്ങുന്നു വാക്കുകളിൽ ഈന്തപ്പനകൾ തഴുകിയ മരുപ്പച്ചയുടെ മണം നടത്തത്തിൽ മണലാരണ്യങ്ങൾ താണ്ടിയ ഒട്ടകങ്ങളുടെ ശാന്തത"</p>
+      <div class="flex items-center justify-between mt-4 pt-3 border-t border-white/10">
+        <span class="text-white/40 text-xs">— അൽ-വാരിസ് മുഹമ്മദ് സ്വാലിഹ്</span>
+        <span class="text-white/60 text-xs flex items-center gap-1 like-btn" onclick="toggleLike(this, 15)">
+          <i class="fa-regular fa-heart"></i> <span class="like-count">15</span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative px-5 sm:px-6 md:px-12 lg:px-16 pt-16 pb-8 border-t border-white/5">
+  <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div>
+      <div class="text-center font-mal glow-amber text-lg sm:text-xl">Deenlytics Meem Felibraze 2.0</div>
+      <div class="d-flex flex-row">
+        <p class="text-white/30 text-xs mt-1 mr-3">© Deenlytics</p>
+        <div>
+          <i class="fa-brands fa-instagram" style="color: rgb(240, 168, 74);"></i>
+          <a href="https://www.instagram.com/deenlytic.s" class="text-white/30 text-xs mt-1">deenlytic.s</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div> <!-- #sectionDetails End -->
+
+<script>
+  // Mobile Menu Logic
+  var mobileToggle = document.getElementById('mobileToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  if(mobileToggle && mobileMenu) {
+    mobileToggle.addEventListener('click', function () {
+      mobileToggle.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+  }
+
+  function closeMobileMenu() {
+    if(mobileToggle && mobileMenu) {
+      mobileToggle.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    }
+  }
+
+  // Smooth Navigation and View Details Trigger
+  function showDetailsAndScroll(targetId) {
+    var details = document.getElementById('sectionDetails');
+    details.style.display = 'block'; 
+    if (targetId) {
+      var targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        targetElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      details.scrollIntoView({ behavior: 'smooth' }); 
+    }
+  }
+
+  // STAGE PROGRAMMES DATA
+  const stageProgramsData = [
+    {
+      num: "01",
+      icon: "https://i.postimg.cc/P56mCm2s/DIS-(3).png",
+      title: "ഉദ്ഘാടനം",
+      desc: "നബിയോർമ്മയിൽ ഒരുമിക്കാം",
+      ledBy: ["ഉസ്താദ് മുഹമ്മദ്‌ നൂറാനി വള്ളിത്തോട്"],
+      photos: [
+        "https://iili.io/CwpET1j.jpg",
+        
+      ]
+    },
+    {
+      num: "02",
+      icon: "https://i.postimg.cc/LX8Byx5K/DIS-(1).png",
+      title: "പ്രമേയാവതരണം",
+      desc: "“മദ്ഹിലലിഞ്ഞ കൈരളി”",
+      ledBy: ["അൽ-വാരിസ് സയ്യിദ് മുഹമ്മദ്‌ മുഹ്യിദ്ധീൻ ബിശ്ർ"],
+      photos: [
+        "https://iili.io/CwpV3rJ.jpg",
+
+      ]
+    },
+    {
+      num: "03",
+      icon: "https://i.postimg.cc/LX8Byx5K/DIS-(1).png",
+      title: "സാഹിത്യ സംസാരം",
+      desc: "“മലയാള കവിതാ സാഹിത്യത്തിലെ നബി മുഹമ്മദ്‌ (സ്വ)”",
+      ledBy: ["അൽ-വാരിസ് ശാഹുൽ ഹമീദ്"],
+      photos: [
+        "https://iili.io/CwpVpaf.jpg"
+      ]
+    },
+    {
+      num: "04",
+      icon: "https://i.postimg.cc/1z5JTmYm/DIS-(2).png",
+      title: "കവിയരങ്ങ്",
+      desc: "ആനന്ദത്തിന്റെ അശ്രുകണങ്ങൾ <br/>  നബി മുഹമ്മദ് <br/>  കാരക്ക‌",
+           
+      ledBy: ["അൽ-വാരിസ് മുഹമ്മദ്‌ അനസ്", "അൽ-വാരിസ് മുഹമ്മദ്‌ ദുജാൻ", "അൽ-വാരിസ് മുഹമ്മദ്‌ റഈസ്"],
+      photos: [
+        "https://iili.io/CNFMuql.jpg"
+      ]
+    },
+     {
+      num: "05",
+      icon: "https://i.postimg.cc/1z5JTmYm/DIS-(2).png",
+      title: "അക്കാദമിക് ടോക്ക്",
+      desc: "“Prophet Muhammed in Mappilappattu: The way of expressing Mahabbath among the Mappila Muslim Community”",
+      ledBy: ["അൽ-വാരിസ് മുഹമ്മദ് ആഷിഖ്"],
+      photos: [
+        "https://iili.io/CwpXAOl.jpg"
+      ]
+    },
+    {
+      num: "06",
+      icon: "https://i.postimg.cc/P56mCm2s/DIS-(3).png",
+      title: "جلسة",
+      desc: "مدائح النبي (ص) في بر كيرالا وتاثيرها الاجتماعي والروحي",
+      ledBy: ["الوارث مزمل عبد الله"],
+      photos: [
+        "https://iili.io/Cwp8Vee.jpg"
+      ]
+    },
+    {
+      num: "07",
+      icon: "https://i.postimg.cc/PrTZK67f/DIS-(4).png",
+      title: "وراثتے گفتگو",
+      desc: "ملیباری مسلمانوں اور نعتے شریف: اظہارے محبت کا ایک الگ طریقہ",
+      ledBy: ["الوارث محمد ثابت"],
+      photos: [
+        "https://iili.io/CwpNdBI.jpg"
+      ]
+    },
+    {
+      num: "08",
+      icon: "https://i.postimg.cc/LX8Byx5K/DIS-(1).png",
+      title: "മാപ്പിളപ്പാട്ട്",
+      desc: "“വഴി നീളം മുറുക്കം തുണ്ട് നീട്ടം ചാട്ട്”",
+      ledBy: ["അൽ - വാരിസ്  മുഹമ്മദ്‌  അജ്മൽ"],
+      photos: [
+        "https://iili.io/CwpeJUX.jpg"
+      ]
+    },
+   
+  ];
+
+  // RENDER STAGE CARDS (RESPONSIVE GRID & TOP BANNER IMAGE DESIGN)
+  const stageContainer = document.getElementById('stageProgramsContainer');
+  if (stageContainer) {
+    stageContainer.innerHTML = stageProgramsData.map((item) => `
+      <div class="section-card rounded-2xl border border-amber-500/20 bg-[#140d0a]/60 overflow-hidden flex flex-col justify-between hover:border-amber-500/40 transition duration-300">
+        
+        <div>
+          <!-- 1. Top Image Flush with Upper Card Border -->
+          <div class="w-full h-52 sm:h-60 overflow-hidden border-b border-amber-500/20 bg-black/40">
+            <img 
+              src="${item.photos[0]}" 
+              alt="${item.title}" 
+              class="w-full h-full object-cover transition duration-500 hover:scale-105"
+            />
+          </div>
+
+          <!-- 2. Content Container -->
+          <div class="p-5 sm:p-6">
+            <!-- Title with Icon & Program Number -->
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <img src="${item.icon}" class="w-6 h-6 object-contain" alt="icon" />
+                <h3 class="text-white text-xl font-bold font-mal glow-amber">${item.title}</h3>
+              </div>
+              <span class="text-white/30 text-xs font-mono bg-white/5 px-2 py-1 rounded-md">${item.num}</span>
+            </div>
+
+            <!-- Program Description -->
+            ${item.desc ? `<p class="text-white/70 text-xs sm:text-sm mt-2.5 leading-relaxed font-mal">${item.desc}</p>` : ''}
+          </div>
+        </div>
+
+        <!-- 3. LED BY Section (Presenter Name at Bottom) -->
+        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-3 border-t border-white/10 mx-5 sm:mx-6 mb-2">
+          <p class="tag-pill mb-2">LED BY :</p>
+          <div class="flex flex-wrap gap-2">
+            ${item.ledBy.map(p => `<span class="bg-white/5 px-3 py-1.5 rounded-lg text-white/90 text-xs sm:text-sm font-mal">${p}</span>`).join('')}
+          </div>
+        </div>
+
+      </div>
+    `).join('');
+  }
+
+  // NON-STAGE EVENTS DATA
+  const nonStageData = [
+    {
+      title: "മുത്തിനായി ഒന്നിക്കുന്ന കൈരളി",
+      desc: "പ്രവാചകന്റെ പേരിൽ കേരളത്തിൽ വർഷങ്ങളായി സംഘടിപ്പിക്കുന്ന സമ്മേളനങ്ങൾ",
+      photos: [
+        "https://iili.io/CwyUgCG.jpg"
+      ]
+    },
+    {
+      title: "കേരളത്തിലെ മീലാദ് കാഴ്ചകൾ",
+      desc: "റബീഉൽ അവ്വൽ മാസത്തിൽ ഗ്രാമീണ കേരളത്തിൽ കണ്ടുവരുന്ന സ്ഥിരം കാഴ്ചകൾ",
+      photos: [
+        "https://iili.io/CwygZSp.jpg"
+      ]
+    },
+    {
+      title: "നബിദിനാഘോഷം: പ്രമാണങ്ങളുടെ വെളിച്ചത്തിൽ",
+      desc: "കേരളത്തിന്റെ പ്രവാചകാനുരാഗ തനിമയെ തള്ളിപ്പറയുന്നവർക്കുള്ള മറുപടി പ്രാമാണിക വെളിച്ചത്തിൽ",
+      photos: [
+        "https://iili.io/CN2lbuR.jpg"
+      ]
+    },
+    {
+      title: "عيادة الكتب",
+      desc: "നബി (സ്വ) തങ്ങളെക്കുറിച്ചുള്ള മുത്വാലഅ പരിപോഷിപ്പിക്കാനാവശ്യമായ നിർദ്ദേശങ്ങൾ നൽകുകയും ചെയ്യുന്ന കിതാബ്-ഓറിയന്റഡ് ബെഞ്ച്",
+      photos: [
+        "https://iili.io/CN2Nc6x.jpg"
+      ]
+    },
+    {
+      title: "Edu Clinic",
+      desc: "കേരളത്തിലെ പ്രവാചകാനുരാഗത്തെക്കുറിച്ച് അക്കാദമിക പഠനത്തിന് സഹായകമായ നിർദേശങ്ങൾ നൽകുന്ന പേഴ്‌സണൽ ഗൈഡിംഗ് ബെഞ്ച്",
+      photos: [
+        "https://iili.io/CN2X9Og.jpg"
+      ]
+    },
+    {
+      title: "Book Fair",
+      desc: "കേരളത്തിലെ പ്രവാചകാനുരാഗത്തെക്കുറിച്ച് അക്കാദമിക പഠനത്തിന് സഹായകമായ നിർദേശങ്ങൾ നൽകുന്ന പേഴ്‌സണൽ ഗൈഡിംഗ് ബെഞ്ച്",
+      photos: [
+        "https://iili.io/CN2eXEJ.jpg"
+      ]
+    },
+    {
+      title: "Prophetique Expo",
+      desc: "മലയാളക്കരയിൽ നിന്ന് നബിയോർമയിൽ രചിക്കപ്പെട്ട പുസ്തകങ്ങളുടെ ബുക്ക്‌ ഫെയർ",
+      photos: [
+        "https://iili.io/CN28pGn.jpg"
+      ]
+    }
+  ];
+
+// RENDER NON-STAGE CARDS DIRECTLY (NO MODAL)
+  const nonStageContainer = document.getElementById('nonStageContainer');
+  if(nonStageContainer) {
+    nonStageContainer.innerHTML = nonStageData.map((item) => `
+      <div class="section-card p-5 sm:p-6 rounded-2xl border border-amber-500/20 bg-[#140d0a]/60">
+        <!-- Title & Description -->
+        <h3 class="text-white text-xl font-bold font-mal glow-amber">${item.title}</h3>
+        <p class="text-white/70 text-xs sm:text-sm mt-1.5 mb-4 leading-relaxed font-mal">${item.desc}</p>
+        
+        <!-- Image Frame Below Text -->
+        <div class="w-full overflow-hidden rounded-xl border border-amber-500/30 shadow-lg">
+          <img 
+            src="${item.photos[0]}" 
+            alt="${item.title}" 
+            class="w-full h-56 sm:h-64 object-cover rounded-xl transition duration-300"
+          />
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // OPEN MODAL FOR PROGRAMMES (HORIZONTALLY SCROLLABLE GALLEY)
+  function openProgramModal(index) {
+    const data = stageProgramsData[index];
+    document.getElementById('photoModalTitle').innerText = data.title;
+    document.getElementById('photoModalDesc').innerText = data.desc || "പ്രോഗ്രാം ചിത്രങ്ങൾ";
+
+    const container = document.getElementById('photoModalContainer');
+    container.innerHTML = data.photos.map(url => `
+      <img src="${url}" class="w-52 h-72 object-cover rounded-xl border border-amber-500/30 shrink-0 cursor-pointer snap-center hover:scale-[1.02] transition duration-300" onclick="openSingleImage('${url}')" />
+    `).join('');
+
+    const modal = document.getElementById('photoModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // OPEN MODAL FOR NON-STAGE EVENTS
+  function openNonStageModal(index) {
+    const data = nonStageData[index];
+    document.getElementById('photoModalTitle').innerText = data.title;
+    document.getElementById('photoModalDesc').innerText = data.desc;
+
+    const container = document.getElementById('photoModalContainer');
+    container.innerHTML = data.photos.map(url => `
+      <img src="${url}" class="w-52 h-72 object-cover rounded-xl border border-amber-500/30 shrink-0 cursor-pointer snap-center hover:scale-[1.02] transition duration-300" onclick="openSingleImage('${url}')" />
+    `).join('');
+
+    const modal = document.getElementById('photoModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePhotoModal() {
+    const modal = document.getElementById('photoModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+  }
+
+  // 7 NEWS UPDATES DATA
+  const newsData = [
+    {
+      category: "തീം ലോഗോ പ്രകാശനം",
+      title: "ദീൻലിറ്റിക്സ് യൂണിറ്റ് മീം ഫെലിബ്രേസ്: തീം ലോഗോ പ്രകാശിതമായി",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://cdn.postimage.me/2026/07/19/WhatsApp-Image-2026-07-19-at-5.19.57-PMbdc611cf15ba7ec9.jpeg",
+      body: "<p>ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസിന്റെ തീം ലോഗോ വിറാസ് അസോസിയേറ്റ് ഡീൻ ഉസ്താദ് മുഹമ്മദ്‌ നൂറാനി വള്ളിത്തോട് പ്രകാശനം ചെയ്തു.</p>"
+    },
+    {
+      category: "കവിതാസമാഹാരം",
+      title: "അങ്ങല്ലാതാര് - കവിതാസമാഹാരം പ്രകാശനം ചെയ്തു ",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://i.postimg.cc/4yZwLNt7/IMG-20260721-181732.jpg",
+      body: "<p>ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസിന്റെ ഭാഗമായി പ്രവാചകർ (സ്വ) തങ്ങളുടെ തിരു ജീവിതത്തിലെ വിവിധ സന്ദർഭങ്ങൾ അടിസ്ഥാനപ്പെടുത്തി മുപ്പത്തിയാറ് കവികൾ മുപ്പത്തിയാറ് കവിതകൾ രചിച്ചു. ദീൻലിറ്റിക്‌സിലെ മുഴുവൻ അംഗങ്ങളും രചിച്ച കവിതകളിൽ നിന്ന് തിരഞ്ഞെടുക്കപ്പെട്ട മൂന്ന് കവിതകൾ ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസ് കവിയരങ്ങിൽ അവതരിപ്പിച്ചു.</p>"
+    },
+    {
+      category: "കൾച്ചറൽ എക്സ്പോ",
+      title: "ദീൻലിറ്റിക്സ് കൾച്ചറൽ എക്സ്പോ പ്രൗഢമായി ",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://iili.io/Cwp6u72.jpg",
+      body: "<p>രണ്ടാമത് ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസിന്റെ ഭാഗമായി സംഘടിപ്പിച്ച കൾച്ചറൽ എക്സ്പോ പ്രൗഢമായി. കേരളത്തിൽ വർഷങ്ങളോളമായി പ്രവാചകന്റെ പേരിൽ ഒത്തുകൂടുന്ന പ്രധാന സമ്മേളനങ്ങൾ, ഗ്രാമീണ മീലാദ് കാഴ്ചകൾ എന്നിങ്ങനെ കേരളത്തിന്റെ പ്രവാചകാനുരാഗ സംസ്ക്കാരത്തെ അടയാളപ്പെടുത്തുന്നതായിരുന്നു ഈ എക്സ്പോ. </p>"
+    },
+    {
+      category: "എജ്യു ക്ലിനിക്കും ഇയാദത്തുൽ കുതുബും",
+      title: "ശ്രദ്ധയാകർഷിച്ച് എജ്യു ക്ലിനിക്കും ഇയാദത്തുൽ കുതുബും",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://iili.io/CwpslBn.jpg",
+      body: "<p>ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസിന്റെ ഭാഗമായി എജ്യു ക്ലിനിക്കും ഇയാദത്തുൽ കുത്തുബും വൈവിധ്യമാർന്ന അനുഭവങ്ങൾ നൽകി. കേരളത്തിലെ പ്രവാചകാനുരാഗത്തെക്കുറിച്ച് അക്കാദമിക പഠനത്തിന് സഹായകമായ നിർദേശങ്ങൾ നൽകുന്ന പേഴ്‌സണൽ ഗൈഡിംഗ് ബെഞ്ചായിരുന്നു എജ്യു ക്ലിനിക്ക്. ഇസ്ലാമിക് സ്റ്റഡീസ്, സൗത്ത് ഏഷ്യൻ സ്റ്റഡീസ്, റിലീജിയസ് സ്റ്റഡീസ് തുടങ്ങിയ വിഷയങ്ങളുമായി ബന്ധപ്പെട്ട ഗവേഷണ സാധ്യതകൾ പരിചയപ്പെടുത്തിയ ബെഞ്ചിന് അൽ വാരിസ് മുഹമ്മദ്‌ ജുനൈദ് നേതൃത്വം നൽകി. തിരുനബി (സ്വ) തങ്ങളെക്കുറിച്ച് മുതഅല്ലിമുകളുടെ കിതാബുകളിലൂടെയുള്ള മുത്വാലഅ എത്രത്തോളമുണ്ടെന്ന് മനസ്സിലാക്കുകയും ഭാവിയിൽ നബി (സ്വ) തങ്ങളെക്കുറിച്ചുള്ള മുത്വാലഅ പരിപോഷിപ്പിക്കാനാവശ്യമായ നിർദ്ദേശങ്ങൾ നൽകുകയും ചെയ്യുകയായിരുന്ന കിതാബ്-ഓറിയന്റഡ് ബെഞ്ചായിരുന്നു ഇയാദത്തുൽ കുത്തുബ്. തിരുനബി (സ്വ) തങ്ങളുമായി ബന്ധപ്പെട്ട കൂടുതൽ കിതാബുകൾ പരിചയപ്പെടുത്തി അൽ വാരിസ് ഇസ്മാഈൽ ബെഞ്ചിന് നേതൃത്വം നൽകി.</p>"
+    },
+    {
+      category: "മാപ്പിളപ്പാട്ട്",
+      title: "മനം കവർന്ന് മാപ്പിളപ്പാട്ട്",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://iili.io/CwpQKV1.jpg",
+      body: "<p>ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസിൽ മനം കവർന്ന് പുതിയ മാപ്പിളപ്പാട്ടാവിഷ്ക്കാരം. വഴി നീളം മുറുക്കം തുണ്ട് നീട്ടം ചാട്ട് എന്ന ഇശലിൽ മദ്ഹിലലിഞ്ഞ കൈരളി എന്ന വിഷയത്തെ ആസ്‌പദമാക്കിയ മാപ്പിളപ്പാട്ടാണ് ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസിന് വേണ്ടി പ്രത്യേകം രചിച്ചത്. അൽ വാരിസ് മുഹമ്മദ്‌ അജ്മൽ രചിച്ച മാപ്പിളപ്പാട്ട് രചയിതാവിന്റെ നേതൃത്വത്തിൽ അൽ വാരിസ് അബ്ദുൽ ബാസിത്ത്, അൽ വാരിസ് ഉബൈദുറഹ്മാൻ എന്നിവർ ചേർന്ന് ആലപിച്ചത് ശ്രോതാക്കൾക്ക് വേറിട്ട അനുഭവമായി.</p>"
+    },
+    {
+      category: "പ്രൊഫറ്റിക് എക്സ്പോ",
+      title: "വേറിട്ട കാഴ്ചകൾ സമ്മാനിച്ച് പ്രൊഫറ്റിക് എക്സ്പോ ",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://iili.io/CwpDrsS.jpg",
+      body: "<p>നൂറ്റാണ്ടുകളായി കേരളീയ മുസ്ലിം വീടുകളിൽ  തിരുനബി (സ്വ) തങ്ങളുടെ ചര്യ പിന്തുടർന്ന് ചെയ്തു പോരുന്ന ആരോഗ്യശീലങ്ങളെയും ഔഷധ രീതികളെയും അവയുടെ ശാസ്ത്രീയ ഗുണങ്ങളോടു കൂടെ അവതരിപ്പിച്ച് വേറിട്ട കാഴ്ച സമ്മാനിച്ച് പ്രൊഫറ്റിക് എക്സ്പോ. പ്രവാചക ചികിത്സാ രീതികളിൽ പെട്ട, പ്രസവാനന്തരമുള്ള പരിചരണങ്ങളിലുപയോഗിക്കുന്ന കരിഞ്ചീരകം, വയറുവേദനയ്ക്കുള്ള തേൻ, രക്തചംക്രമണം മെച്ചപ്പെടുത്തുന്നതിനായുള്ള ഹിജാമ തുടങ്ങിയ ആരോഗ്യത്തിന് കൂടുതൽ പ്രവർത്തനക്ഷമത നൽകുന്ന ഔഷധമുറകളും പൂർണ്ണമായ ജീവിത ശൈലി രീതികളുമാണ് എക്സ്പോ പരിചയപ്പെടുത്തിയത്.</p>"
+    },
+  {
+      category: "ബുക്ക് ഫെയർ",
+      title: "ആകർഷണീയമായി ബുക്ക് ഫെയർ",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://iili.io/CwycCEx.jpg",
+      body: "<p>ദീൻലിറ്റിക്സ് മീം ഫെലിബ്രേസിന്റെ ഭാഗമായി മദ്ഹിലലിഞ്ഞ കൈരളി എന്ന പ്രമേയവുമായി കോർത്തിണക്കി സംഘടിപ്പിച്ച ബുക്ക് ഫെയർ കൗതുകമായി. തിരുനബി (സ്വ) തങ്ങളുമായി ബന്ധപ്പെട്ട് സീറത്ത്, ശമാഇൽ, ഹദീസ്, ചരിത്രം തുടങ്ങിയ വിവിധ വിഷയങ്ങളിലായി മലയാളക്കരയിൽ നിന്ന് രചിക്കപ്പെട്ട പുസ്തകങ്ങളാണ് ബുക്ക്‌ ഫെയറിൽ പ്രദർശിപ്പിച്ചത്. പ്രവാചക ചരിത്രത്തെയും സന്ദേശത്തെയും അടുത്തറിയാൻ സന്ദർശകർക്ക് അവസരമൊരുക്കിയ പ്രദർശനം മികച്ച പ്രതികരണമാണ് നേടിയത്. വിദ്യാർഥികളുടെയും ഉസ്താദുമാരുടെയും സജീവ സാന്നിധ്യം പരിപാടിക്ക് മാറ്റുകൂട്ടി. ചരിത്രവിജ്ഞാനവും വായനാസംസ്കാരവും പ്രോത്സാഹിപ്പിക്കുന്ന വിജ്ഞാനവേദിയായി ബുക്ക് ഫെയർ മാറി.</p>"
+    },
+    {
+      category: "വെബ്സൈറ്റ്",
+      title: "ഓൺലൈൻ തരങ്കം സൃഷ്ടിച്ച് വെബ്സൈറ്റ്",
+      author: "Team Deenlytics",
+      date: "19 JULY 2026",
+      image: "https://iili.io/CwyzwJa.jpg",
+      body: "<p>ദീൻലിറ്റിക്സ് യൂണിറ്റ് മീം ഫെലിബ്രസിന് വേണ്ടി പ്രത്യേകം തയ്യാറാക്കിയ വെബ്സൈറ്റ് പുത്തനാനുഭമായി. മദ്ഹലലിഞ്ഞ കൈരളി എന്ന പ്രമേയത്തിൽ സംഘടിപ്പിച്ച പരിപാടിയുടെ ആശയവും വേദിയിലും സദസ്സിലുമായി നടക്കുന്ന മുഴുവൻ പ്രോഗ്രാമുകളുടെയും വിശദാംശങ്ങളും സമയാസമയം ഏവരെയും ആകർഷിക്കുന്ന ഡിസൈനിങും ഉള്ളടക്കവും നിറഞ്ഞ വെബ്സൈറ്റിലൂടെ ഓൺലൈൻ കാഴ്ചക്കാരിലേക്ക് എത്തിക്കാൻ ഇതിലൂടെ സാധിച്ചു. ദീൻലിറ്റിക്സ് അംഗങ്ങളായ അൽവാരിസ് നാജിബും അൽവാരിസ് ഹബീബ് റഹ്മാനുമാണ് വെബ്സൈറ്റ് നിർമ്മാതാക്കൾ.</p>"
+    }
+  
+  ];
+
+  const newsGrid = document.getElementById('newsGrid');
+  if(newsGrid) {
+    newsGrid.innerHTML = newsData.map((data, index) => `
+      <div class="section-card rounded-2xl overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform duration-300" onclick="openNewsModal(${index})">
+        <img src="${data.image}" class="w-full h-48 object-cover" alt="News Image">
+        <div class="p-4">
+          <span class="text-amber-500 font-bold text-xs tracking-wider uppercase">${data.category}</span>
+          <h3 class="font-mal text-white text-base font-semibold mt-2 line-clamp-2">${data.title}</h3>
+          <div class="flex items-center justify-between mt-4 text-[11px] text-white/40">
+            <span>${data.date}</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openNewsModal(index) {
+    const data = newsData[index];
+    document.getElementById('modalCategory').innerText = data.category;
+    document.getElementById('modalTitle').innerText = data.title;
+    document.getElementById('modalAuthor').innerText = data.author;
+    document.getElementById('modalDate').innerText = data.date;
+    document.getElementById('modalImage').src = data.image;
+    document.getElementById('modalBody').innerHTML = data.body;
+    
+    const modal = document.getElementById('newsModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden'; 
+  }
+
+  function closeNewsModal() {
+    const modal = document.getElementById('newsModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Accordion Expand/Collapse Logic
+  document.addEventListener('click', function (e) {
+    const trigger = e.target.closest('.accordion-trigger');
+    if (trigger) {
+      const item = trigger.closest('.accordion-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+  });
+
+  // Gallery
+  const galleryImages = [
+    "https://iili.io/Cwf8wSS.jpg",
+    'https://iili.io/CN2Z3Qf.jpg',
+    "https://iili.io/CN2ZfEl.jpg",
+   "https://iili.io/CN2Zq42.jpg",
+   "https://iili.io/CN2Zov9.jpg",
+   "https://iili.io/CN2Zvun.jpg",
+   "https://iili.io/CN2ZOvt.jpg",
+   "https://iili.io/CN2ZNaI.jpg",
+   "https://iili.io/CN2tHFV.jpg",
+   "https://iili.io/CN2tAAX.jpg",
+   "https://iili.io/CN2tMH7.jpg",
+   "https://iili.io/CN2tklV.jpg",
+   "https://iili.io/CN2tWNe.jpg",
+    "https://iili.io/CN2tvUB.jpg",
+    "https://iili.io/CN2tZUN.jpg",
+    "https://iili.io/CN2tbRt.jpg",
+    "https://iili.io/CN2D30l.jpg",
+    "https://iili.io/CN2DxWb.jpg",
+    "https://iili.io/CN2DAgV.jpg",
+    "https://iili.io/CN2DamF.jpg",
+    "https://iili.io/CN2DM1R.jpg"
+  ];
+
+  const galleryGrid = document.getElementById('galleryGrid');
+  if(galleryGrid) {
+    galleryImages.forEach(function (url) {
+      const img = document.createElement('img');
+      img.src = url;
+      img.className = 'rounded-2xl cursor-pointer aspect-square object-cover hover:opacity-80 transition';
+      img.addEventListener('click', function () { openSingleImage(url); });
+      galleryGrid.appendChild(img);
+    });
+  }
+
+  function openSingleImage(src) {
+    document.getElementById('galleryModalImg').src = src;
+    document.getElementById('galleryModal').classList.remove('hidden');
+    document.getElementById('galleryModal').classList.add('flex');
+  }
+
+  document.getElementById('galleryBack').addEventListener('click', function () {
+    document.getElementById('galleryModal').classList.add('hidden');
+    document.getElementById('galleryModal').classList.remove('flex');
+  });
+
+  // Like Button Logic
+  function toggleLike(element, initialCount) {
+    const icon = element.querySelector('i');
+    const countSpan = element.querySelector('.like-count');
+    let currentCount = parseInt(countSpan.innerText);
+
+    if (element.classList.contains('liked')) {
+      element.classList.remove('liked');
+      icon.classList.remove('fa-solid');
+      icon.classList.add('fa-regular');
+      countSpan.innerText = currentCount - 1;
+    } else {
+      element.classList.add('liked');
+      icon.classList.remove('fa-regular');
+      icon.classList.add('fa-solid');
+      countSpan.innerText = currentCount + 1;
+    }
+  }
+</script>
+</body>
+</html>
