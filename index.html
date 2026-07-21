@@ -519,7 +519,7 @@
       icon: "https://i.postimg.cc/LX8Byx5K/DIS-(1).png",
       title: "മാപ്പിളപ്പാട്ട്",
       desc: "“വഴി നീളം മുറുക്കം തുണ്ട് നീട്ടം ചാട്ട്”",
-      ledBy: ["അൽ - വാരിസ്  മുഹമ്മദ്‌  അജ്മൽ"],
+      ledBy: ["അൽ-വാരിസ് മുഹമ്മദ്‌ അജ്മൽ", "അൽ-വാരിസ് മുഹമ്മദ്‌ ഉബൈദ് റഹ്‌മാൻ", "അൽ-വാരിസ് അബ്ദുൽ ബാസിത്"],
       photos: [
         "https://iili.io/CwpeJUX.jpg"
       ]
@@ -527,11 +527,11 @@
    
   ];
 
-  // RENDER STAGE CARDS (FIXED EXTRA GAP ISSUE)
+  // RENDER STAGE CARDS (STRICT LEFT ALIGNMENT FIXED)
   const stageContainer = document.getElementById('stageProgramsContainer');
   if (stageContainer) {
     stageContainer.innerHTML = stageProgramsData.map((item) => `
-      <div class="section-card rounded-2xl border border-amber-500/20 bg-[#140d0a]/60 overflow-hidden hover:border-amber-500/40 transition duration-300">
+      <div class="section-card rounded-2xl border border-amber-500/20 bg-[#140d0a]/60 overflow-hidden text-left flex flex-col justify-start hover:border-amber-500/40 transition duration-300">
         
         <!-- 1. Top Banner Image -->
         <div class="w-full h-52 sm:h-60 overflow-hidden border-b border-amber-500/20 bg-black/40">
@@ -542,33 +542,36 @@
           />
         </div>
 
-        <!-- 2. Content Area (Paddings reduced) -->
-        <div class="p-5 sm:p-6 pb-2 sm:pb-3">
+        <!-- 2. Main Content Area (Title & Description) -->
+        <div class="p-5 sm:p-6 pb-2 sm:pb-3 w-full text-left">
           <!-- Title with Icon & Program Number -->
-          <div class="flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
+          <div class="flex items-center justify-between gap-3 w-full text-left">
+            <div class="flex items-center gap-3 text-left">
               <img src="${item.icon}" class="w-6 h-6 object-contain" alt="icon" />
-              <h3 class="text-white text-xl font-bold font-mal glow-amber">${item.title}</h3>
+              <h3 class="text-white text-xl font-bold font-mal glow-amber m-0 text-left">${item.title}</h3>
             </div>
-            <span class="text-white/30 text-xs font-mono bg-white/5 px-2 py-1 rounded-md">${item.num}</span>
+            <span class="text-white/30 text-xs font-mono bg-white/5 px-2 py-1 rounded-md shrink-0">${item.num}</span>
           </div>
 
           <!-- Description -->
-          ${item.desc ? `<p class="text-white/70 text-xs sm:text-sm mt-3 leading-relaxed font-mal">${item.desc}</p>` : ''}
+          ${item.desc ? `<p class="text-white/70 text-xs sm:text-sm mt-3 leading-relaxed font-mal text-left">${item.desc}</p>` : ''}
         </div>
 
-        <!-- 3. LED BY Section (Placed directly below description with tight line spacing) -->
-        <div class="px-5 pb-5 sm:px-6 sm:pb-6 pt-3 border-t border-white/10 mx-5 sm:mx-6 mt-3">
-          <p class="tag-pill mb-2">LED BY :</p>
-          <div class="flex flex-wrap gap-2">
-            ${item.ledBy.map(p => `<span class="bg-white/5 px-3 py-1.5 rounded-lg text-white/90 text-xs sm:text-sm font-mal">${p}</span>`).join('')}
+        <!-- 3. LED BY Section (Strict Left Edge Alignment) -->
+        <div class="w-full px-5 sm:px-6 pb-5 sm:pb-6 pt-3 text-left flex flex-col items-start justify-start">
+          <!-- Divider Line -->
+          <div class="w-full border-t border-white/10 mb-3"></div>
+          
+          <p class="tag-pill mb-2 text-left m-0 p-0 block w-full">LED BY :</p>
+          
+          <div class="flex flex-wrap gap-2 w-full justify-start items-center text-left">
+            ${item.ledBy.map(p => `<span class="bg-white/5 px-3 py-2 rounded-lg text-white/90 text-xs sm:text-sm font-mal text-left inline-block">${p}</span>`).join('')}
           </div>
         </div>
 
       </div>
     `).join('');
   }
-
   // NON-STAGE EVENTS DATA
   const nonStageData = [
     {
